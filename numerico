@@ -1,0 +1,188 @@
+Resumo_Numerico.py
+
+Tipo
+Texto
+Tamanho
+4 KB (4.325 bytes)
+Armazenamento usado
+4 KB (4.325 bytes)
+Local
+Python
+Proprietário
+eu
+Modificado
+em 4 de jul de 2018 por mim
+Aberto
+em 20:52 por mim
+Criado em
+4 de jul de 2018 com o Google Drive Web
+Adicionar uma descrição
+Os leitores podem fazer o download
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jul 03 08:33:21 2018
+
+@author: João Victor Vilela Cassiano
+"""
+import math as m
+import numpy as np
+
+def zeros():
+    def f_zeros(x):
+        #############################
+        '''Ajustar sempre a função'''
+        #############################
+        y=x+m.pi
+        
+        return y
+    a=float(input('Ponto inical: '))
+    b=float(input('Ponto final: '))
+    precisao=0.00001
+    if m.fabs(a-b)<precisao:
+        x_barra=a
+        
+    if f_zeros(a)*f_zeros(b)>0:
+        print('Programa nao pode ser executado')
+        
+    if  f_zeros(a)*f_zeros(b)<0:
+        while (m.fabs(b-a))>=precisao:
+            x=(b+a)/2
+            if f_zeros(a)<0:
+                if f_zeros(x)>0:
+                    b=x
+                else:
+                    a=x
+            if f_zeros(b)<0:
+                if f_zeros(x)>0:
+                    a=x
+                else:
+                    b=x
+    x_barra=(b+a)/2
+    print('A funcao e zero em %f'%(x_barra))
+
+def sistemas():
+    R_contrario=[]
+    N=int(input('Ordem da matriz: '))
+    A=np.zeros([N,N])
+    b=np.zeros([N,1])
+    for i in range(1,N+1):
+        for j in range(1,N+1):
+            A[i-1,j-1]=float(input('Coeficiente %ix%i da matriz: '%(i-1,j-1)))
+    for i in range(1,N+1):
+        b[i-1,0]=float(input('Linha %i do vetor b: '%(i)))
+    z=np.linalg.solve(A,b)
+    print(z)
+
+    
+def aproximacoes():
+    Lx=[]
+    Ly=[]
+    n=int(input('Numero de pontos coletados: '))
+    for c in range(n):
+        cx=float(input('Parametro Independente: '))
+        Lx.append(cx)
+    for x in range(n):
+        cy=float(input('Parametros Dependentes: '))
+
+        Ly.append(cy)
+    cc=len(Lx)
+    kk=cc-1
+    Mx=np.zeros([cc,cc])
+    My=np.zeros([cc,1])
+    for j in range(0,cc):
+        My[j][0]=(Ly[j])
+        for i in range(cc):
+            Mx[j][i]=(Lx[j])**i
+    z=np.linalg.solve(Mx,My)
+    print(z)
+    
+
+    
+def aproximacao_integral():
+    l=[]
+    j=0
+    pi=float(input("Ponto inicial: "))
+    pf=float(input("Ponto final: "))
+    N=4000
+    h=m.fabs((pf-pi)/N)
+    if pf>pi:
+        for x in np.arange(pi,pf+h,h):
+            l.append(m.e**(-(x**2)))
+        for i in range(1,N):
+            j=j+l[i]
+        vv=(2*j+l[0]+l[N])*(h/2)
+        print(vv)
+    else:
+        if pi==pf:
+            print('A integral sera igual a zero')
+
+def EDOs():
+    pi=float(input('Coloque o valor do ponto inicial : '))
+    pf=float(input('Coloque o valor do ponto final : '))
+    yi=float(input('Coloque o valor da imagem da funcao no ponto inicial : '))
+    h=float(input('Coloque o valor de "h" : '))
+    
+    def f(x,y):
+        g=((m.e**(y*x))*m.cos(x+y))
+        z=round(g,5)
+        
+        return(z)
+    
+    n=int((pf-pi)/(h))
+    Y=[]
+    K1=[]
+    K2=[]
+    Y.append(yi)
+    print('Para o metodo de Euler Modificado pressione "1" \nPara o metodo de Euler Melhorado pressione "2" ')
+    mt=int(input('Opcao desejada: '))
+    if mt==1:
+        for i in range(n):
+            k1=f(pi,Y[i])
+            k2=(f(pi+(h/2),Y[i]*k1*0.5*h))
+            yn=Y[i]+h*k2
+            pi=pi+h
+            Y.append(yn)
+            K1.append(k1)
+            K2.append(k2)
+    else:
+        for i in range(n):
+            k1=f(pi,Y[i])
+            k2=f(pi+h,Y[i]+h*k1)
+            yn=Y[0]+(h/2)*(k1+k2)
+            Y.append(yn)
+            pi=pi+h
+            K1.append(k1)
+            K2.append(k2)
+    print(Y)
+
+Op=int(input('Digite a opcao desejada: \n 1 Para encontrar o zero da funcao \n 2 Para encontrar a resposta do Sistema Linear \n 3 Para encontrar os coeficeintes de um polinomio \n 4 Para encontrar o valor de uma integral por meio do metodo dos trapezios \n 5 Para a resolucao de uma Edo via passo multiplo \n Opcao: '))
+if Op==1:
+    zeros()
+else:
+    if Op==2:
+        sistemas()
+        
+    else:
+        if Op==3:
+            aproximacoes()
+            
+        else:
+            if Op==4:
+                aproximacao_integral()
+                
+            else:
+                if Op==5:
+                    EDOs()
+                    
+                else:
+                    print('Essa opcao nao existe.')
+
+
+            
+    
+    
+    
+    
+    
+        
+            
